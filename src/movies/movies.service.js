@@ -19,14 +19,24 @@ async function findTheatersShowingMovie(movieId) {
         .where({ movie_id: movieId})
 }
 
-async function findReviewsForMovie(movieId) {
-    return knex("reviews as r")
-        .join("critics as c", "r.critic_id", "c.critic_id")
-        .select("r.*", "c.*")
-        .where({ movie_id: movieId })
+async function findCritic(critic_id) {
+    return knex("critics")
+        .select("*")
+        .where({ critic_id })
+        .then(review => review[0])
 }
 
+async function addCriticToReview(review) {
+    review.critic = await findCritic(review.critic_id);
+    return review;
+}
 
+async function findReviewsForMovie(movie_id) {
+    return knex("reviews")
+        .select("*")
+        .where({ movie_id })
+        .then(reviews => Promise.all(reviews.map(review => addCriticToReview(review))))
+}
 
 module.exports = {
     list,

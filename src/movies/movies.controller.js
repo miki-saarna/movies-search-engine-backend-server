@@ -49,22 +49,7 @@ async function findTheatersShowingMovie(req, res) {
 
 async function findReviewsForMovie(req, res) {
     const movieId = res.locals.movieId;
-    const reviews = await service.findReviewsForMovie(movieId);
-    // is there a more efficient way to accomplish the code below?
-    const data = reviews.map(review => ({ 
-        review_id: review.review_id,
-        content: review.content,
-        score: review.score,
-        critic_id: review.critic_id,
-        movie_id: review.movie_id,
-        critic: {
-          critic_id: review.critic_id,
-          preferred_name: review.preferred_name,
-          surname: review.surname,
-          organization_name: review.organization_name,
-          }
-        })
-        )
+    const data = await service.findReviewsForMovie(movieId);
     res.json({ data })
 }
 

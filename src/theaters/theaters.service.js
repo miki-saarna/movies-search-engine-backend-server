@@ -5,15 +5,12 @@ async function moviesInfo(theater_id) {
         .join("movies as m", "mt.movie_id", "m.movie_id")
         .select("mt.*", "m.*")
         .where({ theater_id })
-        // .first()
 }
 
 async function includeMoviesAtTheater(theater) {
     theater.movies = await moviesInfo(theater.theater_id)
     return theater
 }
-
-
 
 async function list() {
     return knex("theaters")
