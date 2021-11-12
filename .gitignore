@@ -22,7 +22,7 @@ build/
 .vscode/
 .vercel
 .screenshots/
-.qualified-attachac
+.qualified-attach.json
 docs/
 .attachignore
 
